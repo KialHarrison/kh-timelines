@@ -1,0 +1,11 @@
+{
+	"id": "kh-timelines",
+	"name": "KH's Timelines",
+	"version": "1.0.0",
+	"minAppVersion": "1.11.7",
+	"description": "Creates a simple timeline featurew using a custom codeblock",
+	"author": "Kial Harrison",
+	"authorUrl": "",
+	"fundingUrl": "",
+	"isDesktopOnly": true
+}
