@@ -9,9 +9,15 @@ type TimelineEntry = {
 
 export default class TimelinePlugin extends Plugin {
 	settings: TimelinePluginSettings;
+	private readonly hideMarkersClass = 'timeline-hide-markers';
+
+	refreshTimelineViews(): void {
+		this.app.workspace.trigger('markdown-preview-refresh');
+	}
 
 	async onload() {
 		await this.loadSettings();
+		this.applyMarkerVisibility();
 		this.addSettingTab(new TimelineSettingTab(this.app, this));
 
 		this.addCommand({
@@ -35,6 +41,14 @@ export default class TimelinePlugin extends Plugin {
 			const container = el.createDiv({cls: 'timeline'});
 			await renderTimelineEntries(entries, container, ctx, this.settings, this);
 		});
+
+		this.register(() => {
+			document.body.classList.remove(this.hideMarkersClass);
+		});
+	}
+
+	applyMarkerVisibility(): void {
+		document.body.classList.toggle(this.hideMarkersClass, !this.settings.showMarkers);
 	}
 
 	async loadSettings() {
@@ -162,7 +176,9 @@ async function renderTimelineHtml(
 		return html;
 	}
 
-	html += '<div class="timeline-start-marker" aria-hidden="true"></div>';
+	if (settings.showMarkers) {
+		html += '<div class="timeline-start-marker" aria-hidden="true"></div>';
+	}
 
 	for (const entry of entries) {
 		html += '<div class="timeline-item">';
@@ -213,7 +229,9 @@ async function renderTimelineEntries(
 		return;
 	}
 
-	container.createDiv({cls: 'timeline-start-marker', attr: {'aria-hidden': 'true'}});
+	if (settings.showMarkers) {
+		container.createDiv({cls: 'timeline-start-marker', attr: {'aria-hidden': 'true'}});
+	}
 
 	for (const entry of entries) {
 		const item = container.createDiv({cls: 'timeline-item'});

@@ -33,6 +33,8 @@ export class TimelineSettingTab extends PluginSettingTab {
 					.onChange(async (value) => {
 						this.plugin.settings.showMarkers = value;
 						await this.plugin.saveSettings();
+						this.plugin.applyMarkerVisibility();
+						this.plugin.refreshTimelineViews();
 					})
 			);
 
@@ -46,6 +48,7 @@ export class TimelineSettingTab extends PluginSettingTab {
 					.onChange(async (value) => {
 						this.plugin.settings.defaultDateLabel = value.trim();
 						await this.plugin.saveSettings();
+						this.plugin.refreshTimelineViews();
 					})
 			);
 

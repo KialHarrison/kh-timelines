@@ -132,3 +132,8 @@
 		left: var(--timeline-marker-offset);
 	}
 }
+
+.timeline-hide-markers .timeline-marker,
+.timeline-hide-markers .timeline-start-marker {
+	display: none;
+}
